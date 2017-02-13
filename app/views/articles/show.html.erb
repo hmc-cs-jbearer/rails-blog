@@ -11,8 +11,12 @@
 <h2>Comments</h2>
 <%= render @article.comments %>
 
-<h2>Add a comment:</h2>
-<%= render 'comments/form' %>
+<% if current_user %>
+    <h2>Add a comment:</h2>
+    <%= render 'comments/form' %>
+<% else %>
+    <h2><%= link_to 'Sign in', new_user_session_path %> to comment. </h2>
+<% end %>
 
 <%= link_to 'Edit', edit_article_path(@article) %> |
 <%= link_to 'Delete', article_path(@article), method: :delete, data: { confirm: 'Are you sure?' } %>
