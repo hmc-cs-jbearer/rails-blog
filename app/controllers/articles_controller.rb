@@ -5,6 +5,11 @@ class ArticlesController < ApplicationController
     @articles = Article.all
   end
 
+  def mine
+    @articles = current_user.articles
+    render 'index'
+  end
+
   def show
     @article = Article.find(params[:id])
   end
@@ -29,9 +34,7 @@ class ArticlesController < ApplicationController
     @article = Article.find(params[:id])
     if @article.user != current_user
       redirect_to articles_path
-    end
-
-    if @article.update(article_params)
+    elsif @article.update(article_params)
       redirect_to @article
     else
       render 'edit'
@@ -40,9 +43,13 @@ class ArticlesController < ApplicationController
 
   def destroy
     @article = Article.find(params[:id])
-    @article.destroy
-
-    redirect_to articles_path
+    if @article.user != current_user
+      redirect_to articles_path
+    else
+      @article = Article.find(params[:id])
+      @article.destroy
+      redirect_to articles_path
+    end
   end
 
   private

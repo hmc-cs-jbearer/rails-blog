@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   devise_for :users
   get 'welcome/index'
 
+  get 'articles/mine', to: 'articles#mine', as: 'user_articles'
+
   resources :articles do
     resources :comments
   end
