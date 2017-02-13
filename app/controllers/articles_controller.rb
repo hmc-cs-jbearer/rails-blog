@@ -21,7 +21,8 @@ class ArticlesController < ApplicationController
   def edit
     @article = Article.find(params[:id])
     if @article.user != current_user
-      redirect_to articles_path
+      flash[:error] = "You do not have permission to edit this article."
+      redirect_to @article
     end
   end
 
@@ -33,10 +34,13 @@ class ArticlesController < ApplicationController
   def update
     @article = Article.find(params[:id])
     if @article.user != current_user
-      redirect_to articles_path
+      flash[:error] = "You do not have permission to edit this article."
+      redirect_to @article
     elsif @article.update(article_params)
+      flash[:success] = "Article updated."
       redirect_to @article
     else
+      flash[:error] = @article.errors.full_messages
       render 'edit'
     end
   end
@@ -44,10 +48,13 @@ class ArticlesController < ApplicationController
   def destroy
     @article = Article.find(params[:id])
     if @article.user != current_user
-      redirect_to articles_path
+      flash[:error] = "You do not have permission to delete this article."
+      redirect_to @article
     else
       @article = Article.find(params[:id])
       @article.destroy
+
+      flash[:success] = "Article deleted."
       redirect_to articles_path
     end
   end

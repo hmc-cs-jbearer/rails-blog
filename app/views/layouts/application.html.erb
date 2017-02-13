@@ -52,6 +52,11 @@
 
     <div class="row">
       <div class="col-lg-12 text-center">
+        <% flash.each do |status, message| %>
+          <div class="alert alert-<%= status %>">
+            <%= message %>
+          </div>
+        <% end %>
         <%= yield %>
       </div>
     </div>
