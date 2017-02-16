@@ -1,4 +1,6 @@
 class ArticlesController < ApplicationController
+  include ActionView::Helpers::TextHelper
+
   before_action :authenticate_user!, except: [:index, :show]
 
   def index
@@ -7,6 +9,21 @@ class ArticlesController < ApplicationController
 
   def mine
     @articles = current_user.articles
+    render 'index'
+  end
+
+  def search
+    q = params[:search][:query].downcase
+    @articles = Article.all.select { |article|
+      article.title.downcase.include? q or article.text.downcase.include? q
+    }
+
+    if @articles.empty?
+      flash[:alert] = "No results for query \"#{q}\""
+    else
+      flash[:success] = "We found #{pluralize(@articles.length, 'result')} matching #{q}"
+    end
+
     render 'index'
   end
 

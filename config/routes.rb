@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   get 'welcome/index'
 
   get 'articles/mine', to: 'articles#mine', as: 'user_articles'
+  post 'articles/search', to: 'articles#search', as: 'search_articles'
 
   resources :articles do
     resources :comments

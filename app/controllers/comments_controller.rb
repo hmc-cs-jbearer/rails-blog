@@ -5,6 +5,34 @@ class CommentsController < ApplicationController
     redirect_to article_path(@article)
   end
 
+  def edit
+    @article = Article.find(params[:article_id])
+    @comment = @article.comments.find(params[:id])
+    if @comment.user != current_user
+      flash[:error] = 'You do not have permission to edit this comment.'
+      redirect_to @article
+    else
+      @editing_comment = @comment
+      render 'articles/show'
+    end
+  end
+
+  def update
+    @article = Article.find(params[:article_id])
+    @comment = @article.comments.find(params[:id])
+    if @comment.user != current_user
+      flash[:error] = 'You do not have permission to edit this coment.'
+      redirect_to @article
+    elsif @comment.update(comment_params)
+      flash[:success] = "Comment updated."
+      redirect_to @article
+    else
+      flash[:error] = @comment.errors.full_messages
+      render 'articles/show'
+    end
+
+  end
+
   def destroy
     @article = Article.find(params[:article_id])
     @comment = @article.comments.find(params[:id])

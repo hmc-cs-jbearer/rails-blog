@@ -2,9 +2,14 @@
   <div class="article-title">
     <%= @article.title %>
     <% if @article.user == current_user %>
-      <div class="btn-group" role="group" aria-label="...">
-        <%= link_to 'Edit', edit_article_path(@article), class: 'btn btn-default' %>
-        <%= link_to 'Delete', article_path(@article), class: 'btn btn-default', method: :delete %>
+      <div class="btn-group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <li><%= link_to 'Edit', edit_article_path(@article) %></li>
+          <li><%= link_to 'Delete', article_path(@article), method: :delete %></li>
+        </ul>
       </div>
     <% end %>
   </div>

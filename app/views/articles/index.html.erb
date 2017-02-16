@@ -1,24 +1,18 @@
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-xs-2"><h2>Title</h2></div>
-    <div class="col-xs-2"><h2>Author</h2></div>
-    <div class="col-xs-5"><h2>Text</h2></div>
-    <div class="col-xs-3"></div>
-  </div>
-
-  <% @articles.each do |article| %>
-    <div class="row">
-      <div class="col-xs-2"><%= article.title %></div>
-      <div class="col-xs-2"><%= article.user.email %></div>
-      <div class="col-xs-5 text-preview"><%= article.text %></div>
-      <div class="col-xs-3">
-        <div class="btn-group" role="group" aria-label="...">
-          <%= link_to 'Show', article_path(article), class: 'btn btn-default' %>
-          <%= link_to 'Edit', edit_article_path(article), class: 'btn btn-default' %>
-          <%= link_to 'Delete', article_path(article), class: 'btn btn-default',
-            method: :delete, data: { confirm: 'Are you sure?' } %>
-        </div>
-      </div>
+<% @articles.each do |article| %>
+  <div class="panel panel-default article clickable" onclick="location.href='<%= article_path(article) %>'">
+    <div class="panel-heading">
+      <span class="article-title"><%= article.title %></span><br>
+      <span class="article-author"><%= article.user.email %></span>
     </div>
-  <% end %>
-</div>
+    <div class="panel-body article-text">
+      <% if article.text.length > 500 %>
+        <%= simple_format article.text[0..500] + '...' %>
+      <% else %>
+        <%= simple_format article.text %>
+      <% end %>
+    </div>
+    <div class="panel-footer">
+      <%= pluralize(article.comments.length, 'comment') %>
+    </div>
+  </div>
+<% end %>

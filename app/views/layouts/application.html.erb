@@ -41,6 +41,12 @@
             </li>
           <% end %>
         </ul>
+        <%= form_for 'search', html: {class: 'navbar-form navbar-right'}, url: search_articles_path do |f| %>
+          <div class="form-group">
+            <%= f.text_field :query, class: 'form-control', placeholder: 'Search' %>
+          </div>
+          <%= f.submit 'Go', class: 'btn btn-default' %>
+        <% end %>
       </div>
       <!-- /.navbar-collapse -->
     </div>
