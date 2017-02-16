@@ -1,13 +1,7 @@
-<p>
-  Commenting as <%= current_user.email %>
-</p>
-
 <%= form_for([@article, @article.comments.build]) do |f| %>
-  <p>
-    <%= f.label :body %><br>
-    <%= f.text_area :body %>
-  </p>
-  <p>
-    <%= f.submit %>
-  </p>
+  <div class="form-group">
+    <%= f.text_area :body, class: 'form-control', placeholder: 'Add a comment...' %>
+  </div>
+
+  <%= f.submit "Comment as " + current_user.email, class: "btn btn-default" %>
 <% end %>
