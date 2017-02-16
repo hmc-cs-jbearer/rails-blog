@@ -3,6 +3,9 @@
     <h3 class="panel-title">
       <% if comment.user == current_user %>
         You said:
+        <span class="right-align">
+          <%= link_to 'Delete', [comment.article, comment], class: 'btn btn-default', method: :delete %>
+        </span>
       <% else %>
         <%= comment.user.email %> said:
       <% end %>
@@ -11,9 +14,4 @@
   <div class="panel-body">
     <%= comment.body %>
   </div>
-  <% if comment.user == current_user or comment.article.user == current_user %>
-    <div class="panel-footer">
-      <%= link_to 'Delete', [comment.article, comment], class: 'btn btn-default', method: :delete %>
-    </div>
-  <% end %>
 </div>

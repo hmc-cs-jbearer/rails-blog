@@ -27,8 +27,14 @@ class ArticlesController < ApplicationController
   end
 
   def create
-    @article = current_user.articles.create(article_params)
-    redirect_to @article
+    @article = current_user.articles.new(article_params)
+    if @article.save
+      flash[:success] = "Article saved."
+      redirect_to @article
+    else
+      flash[:error] = @article.errors.full_messages
+      render 'edit'
+    end
   end
 
   def update
