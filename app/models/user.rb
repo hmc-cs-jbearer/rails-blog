@@ -6,4 +6,10 @@ class User < ApplicationRecord
 
   has_many :articles
   has_many :comments
+
+  has_many :upvotes
+  has_many :downvotes
+  has_many :upvoted_articles, through: :upvotes, source: 'article'
+  has_many :downvoted_articles, through: :downvotes, source: 'article'
+
 end

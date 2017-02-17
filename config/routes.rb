@@ -5,6 +5,9 @@ Rails.application.routes.draw do
   get 'articles/mine', to: 'articles#mine', as: 'user_articles'
   post 'articles/search', to: 'articles#search', as: 'search_articles'
 
+  get 'articles/:id/upvote', to: 'articles#upvote', as: 'upvote_article'
+  get 'articles/:id/downvote', to: 'articles#downvote', as: 'downvote_article'
+
   resources :articles do
     resources :comments
   end

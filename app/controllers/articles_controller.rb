@@ -1,7 +1,7 @@
 class ArticlesController < ApplicationController
   include ActionView::Helpers::TextHelper
 
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, except: [:index, :show, :search]
 
   def index
     @articles = Article.all
@@ -25,6 +25,20 @@ class ArticlesController < ApplicationController
     end
 
     render 'index'
+  end
+
+  def upvote
+    @article = Article.find(params[:id])
+    clear_votes(@article, current_user)
+    Upvote.create(article: @article, user: @current_user)
+    render 'show'
+  end
+
+  def downvote
+    @article = Article.find(params[:id])
+    clear_votes(@article, current_user)
+    Downvote.create(article: @article, user: @current_user)
+    render 'show'
   end
 
   def show
@@ -85,5 +99,14 @@ class ArticlesController < ApplicationController
   private
     def article_params
       params.require(:article).permit(:title, :text)
+    end
+
+    def clear_votes(article, user)
+      Upvote.where(article: article, user: user).each do |upvote|
+        upvote.destroy
+      end
+      Downvote.where(article: article, user: user).each do |downvote|
+        downvote.destroy
+      end
     end
 end

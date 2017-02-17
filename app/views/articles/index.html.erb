@@ -12,6 +12,12 @@
       <% end %>
     </div>
     <div class="panel-footer">
+      <span class="glyphicon glyphicon-thumbs-up
+        <%= (article.upvote_users.include? current_user) ? 'glyphicon-active' : '' %>"><%= article.upvotes.length %>
+      </span>
+      <span class="glyphicon glyphicon-thumbs-down
+        <%= (article.downvote_users.include? current_user) ? 'glyphicon-active' : '' %>"><%= article.downvotes.length %>
+      </span>
       <%= pluralize(article.comments.length, 'comment') %>
     </div>
   </div>

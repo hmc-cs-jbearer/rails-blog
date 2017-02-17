@@ -24,6 +24,19 @@
     <%= simple_format @article.text %>
   </div>
 
+  <div class="btn-group">
+    <a class="btn btn-default <%= (@article.upvote_users.include? current_user) ? 'btn-primary' : '' %>"
+       href="<%= upvote_article_path(@article) %>">
+      <span class="glyphicon glyphicon-thumbs-up"><%= @article.upvotes.length %></span>
+    </a>
+    <a class="btn btn-default <%= (@article.downvote_users.include? current_user) ? 'btn-primary' : '' %>"
+       href="<%= downvote_article_path(@article) %>">
+      <span class="glyphicon glyphicon-thumbs-down"><%= @article.downvotes.length %></span>
+    </a>
+  </div>
+
+  <hr>
+
   <h2>Comments</h2>
   <%= render @article.comments %>
 
