@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   devise_for :users
   get 'welcome/index'
 
-  get 'articles/mine', to: 'articles#mine', as: 'user_articles'
+  get 'articles/select/:filter/:order', to: 'articles#select', as: 'select_articles'
   post 'articles/search', to: 'articles#search', as: 'search_articles'
 
   get 'articles/:id/upvote', to: 'articles#upvote', as: 'upvote_article'

@@ -10,14 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170217002019) do
+ActiveRecord::Schema.define(version: 20170217030736) do
 
   create_table "articles", force: :cascade do |t|
     t.string   "title"
     t.text     "text"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
     t.integer  "user_id"
+    t.integer  "upvotes_count"
+    t.integer  "downvotes_count"
     t.index ["user_id"], name: "index_articles_on_user_id"
   end
 

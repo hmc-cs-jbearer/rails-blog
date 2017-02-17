@@ -1,14 +1,29 @@
 class ArticlesController < ApplicationController
   include ActionView::Helpers::TextHelper
 
-  before_action :authenticate_user!, except: [:index, :show, :search]
+  before_action :authenticate_user!, except: [:index, :index_popular, :show, :search]
 
   def index
-    @articles = Article.all
+    redirect_to select_articles_path('all', 'recent')
   end
 
-  def mine
-    @articles = current_user.articles
+  def select
+    @articles = Article.all
+    @filter = params[:filter]
+    @order = params[:order]
+
+    if @filter == 'mine'
+      @articles = @articles.where(user: current_user)
+    end
+
+    if @order == 'recent'
+      @articles = @articles.order('created_at DESC')
+    elsif @order == 'popular'
+      @articles = @articles.order('upvotes_count DESC')
+    else
+      flash[:error] = "Unknown sorting criteria \"#{@order}\""
+    end
+
     render 'index'
   end
 

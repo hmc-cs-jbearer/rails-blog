@@ -1,0 +1,22 @@
+<div class="panel panel-default article clickable" onclick="location.href='<%= article_path(article) %>'">
+  <div class="panel-heading">
+    <span class="article-title"><%= article.title %></span><br>
+    <span class="article-author"><%= article.user.email %></span>
+  </div>
+  <div class="panel-body article-text">
+    <% if article.text.length > 500 %>
+      <%= simple_format article.text[0..500] + '...' %>
+    <% else %>
+      <%= simple_format article.text %>
+    <% end %>
+  </div>
+  <div class="panel-footer">
+    <span class="glyphicon glyphicon-thumbs-up
+      <%= (article.upvote_users.include? current_user) ? 'glyphicon-active' : '' %>"><%= article.upvotes.length %>
+    </span>
+    <span class="glyphicon glyphicon-thumbs-down
+      <%= (article.downvote_users.include? current_user) ? 'glyphicon-active' : '' %>"><%= article.downvotes.length %>
+    </span>
+    <%= pluralize(article.comments.length, 'comment') %>
+  </div>
+</div>
